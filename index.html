@@ -151,6 +151,16 @@ button[type="submit"]:focus {
     <div class="container justify-center items-center">
         <div class="content">
             <h1 class="text-3xl font-semibold text-center mb-6">OpenAI 余额查询</h1>
+            
+              <!-- API链接选择 -->
+              <span>选择查询线路</span>
+            
+              <select id="api-url-select" style="background-color: #befaca;">
+                <option value="https://api.askgptai.tech">【CloudFlare】api.askgptai.tech</option>
+                <option value="https://openai.1rmb.tk">【社区反代】openai.1rmb.tk</option>
+                <option value="https://api.openai.com">【官网线路】api.openai.com</option>
+              </select>
+            
             <form method="POST" onsubmit="event.preventDefault(); checkOpenAICredit();" class="flex items-center mb-10">
                 <label for="api_key" class="w-28 mr-4">API密钥:</label>
                 <input type="text" placeholder="请输入您的API密钥：sk-" name="api_key" id="api_key"
@@ -163,9 +173,10 @@ button[type="submit"]:focus {
             <div id="result"></div>
         </div>
     </div>
-    </div>
-    <script>
-
+</div>
+    
+<script>
+api_url = document.getElementById("api-url-select").value;
 function showLoader() {
     document.getElementById("loader").style.display = "inline-block";
 }
@@ -230,9 +241,9 @@ async function checkBilling(apiKey) {
   const endDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
   // 设置API请求URL和请求头
-  const urlSubscription = 'https://api.openai.com/v1/dashboard/billing/subscription'; // 查是否订阅
-  const urlBalance = 'https://api.openai.com/dashboard/billing/credit_grants'; // 查普通账单
-  urlUsage = `https://api.openai.com/v1/dashboard/billing/usage?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`; // 查使用量
+  const urlSubscription = `${api_url}/v1/dashboard/billing/subscription`; // 查是否订阅
+  const urlBalance = `${api_url}/dashboard/billing/credit_grants`; // 查普通账单
+  urlUsage = `${api_url}/v1/dashboard/billing/usage?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`; // 查使用量
   const headers = {
     "Authorization": "Bearer " + apiKey,
     "Content-Type": "application/json"
@@ -250,7 +261,7 @@ async function checkBilling(apiKey) {
     // 判断是否过期
     const timestamp_now = Math.floor(Date.now() / 1000);
     const timestamp_expire = subscriptionData.access_until;
-    if (timestamp_now > timestamp_expire) {
+    if (subscriptionData.plan.id!='free' && timestamp_now > timestamp_expire) {
         alert("您的账户额度已过期, 请登录OpenAI进行查看。");
     }
     
@@ -267,7 +278,7 @@ async function checkBilling(apiKey) {
         // 获取当前月的第一天日期
         const day = now.getDate();  // 本月过去的天数
         startDate = new Date(now - (day - 1) * 24 * 60 * 60 * 1000); // 本月第一天
-        urlUsage = `https://api.openai.com/v1/dashboard/billing/usage?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`; // 查使用量
+        urlUsage = `${api_url}/v1/dashboard/billing/usage?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`; // 查使用量
         response = await fetch(urlUsage, {headers});
         usageData = await response.json();
         totalUsage = usageData.total_usage / 100;
