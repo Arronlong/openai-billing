@@ -178,7 +178,6 @@ button[type="submit"]:focus {
 </div>
     
 <script>
-api_url = document.getElementById("api-url-select").value;
 function showLoader() {
     document.getElementById("loader").style.display = "inline-block";
 }
@@ -237,6 +236,7 @@ function checkOpenAICredit() {
 }
 
 async function checkBilling(apiKey) {
+  var api_url = document.getElementById("api-url-select").value;
   // 计算起始日期和结束日期
   const now = new Date();
   startDate = new Date(now - 90 * 24 * 60 * 60 * 1000);
