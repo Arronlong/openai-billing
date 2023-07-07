@@ -269,8 +269,8 @@ async function checkBilling(apiKey) {
         alert("您的账户额度已过期, 请登录OpenAI进行查看。");
     }
     
-    const totalAmount = subscriptionData.hard_limit_usd;
-    const is_subsrcibed = subscriptionData.has_payment_method;
+    const totalAmount = Number((subscriptionData.hard_limit_usd).toFixed(3));
+    const is_subsrcibed = Number((subscriptionData.has_payment_method).toFixed(3));
 
     // 获取已使用量
     response = await fetch(urlUsage, {headers});
@@ -289,7 +289,7 @@ async function checkBilling(apiKey) {
     }
 
     // 计算剩余额度
-    const remaining = totalAmount - totalUsage;
+    const remaining = Number((totalAmount - totalUsage).toFixed(3));
 
     // 输出总用量、总额及余额信息
     console.log(`Total Amount: ${totalAmount.toFixed(2)}`);
