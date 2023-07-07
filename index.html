@@ -263,7 +263,9 @@ async function checkBilling(apiKey) {
     // 判断是否过期
     const timestamp_now = Math.floor(Date.now() / 1000);
     const timestamp_expire = subscriptionData.access_until;
-    if (subscriptionData.plan.id=='free' && timestamp_now > timestamp_expire) {
+    if(subscriptionData.has_payment_method){
+        console.log("付费账号：", apiKey)
+    }else if (timestamp_now > timestamp_expire) {
         alert("您的账户额度已过期, 请登录OpenAI进行查看。");
     }
     
