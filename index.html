@@ -260,7 +260,7 @@ async function checkBilling(apiKey) {
     }
     const subscriptionData = await response.json();
     const totalAmount = Number((subscriptionData.hard_limit_usd).toFixed(3));
-    const is_subsrcibed = (subscriptionData.has_payment_method;//是否绑定卡
+    const is_subsrcibed = subscriptionData.has_payment_method;//是否绑定卡
 
     // 判断是否过期
     const timestamp_now = Math.floor(Date.now() / 1000);
