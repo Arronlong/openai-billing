@@ -165,7 +165,7 @@ button[type="submit"]:focus {
                 <option value="custom">自定义 ...</option>
               </select>
               <!-- 自定义API链接输入框 -->
-              <input type="text" id="custom-url-input" placeholder="输入自定义API，默认使用 https 协议" style="display:none" />
+              <input type="text" id="custom-url-input" placeholder="输入自定义API，默认使用 https 协议" style="display:none" value="https://"/>
             
             <form method="POST" onsubmit="event.preventDefault(); checkOpenAICredit();" class="flex items-center mb-10">
                 <label for="api_key" class="w-28 mr-4">API密钥:</label>
@@ -174,7 +174,7 @@ button[type="submit"]:focus {
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full ml-4">
                 <span style="display:inline-block; width: 50px;">查询</span>
                 </button>
-                <div id="loader" class="loader ml-4" style="display:none;" value="https://"></div>
+                <div id="loader" class="loader ml-4" style="display:none;" ></div>
             </form>
             <div id="result"></div>
         </div>
