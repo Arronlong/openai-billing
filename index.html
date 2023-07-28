@@ -157,12 +157,15 @@ button[type="submit"]:focus {
             
               <select id="api-url-select" style="background-color: #befaca;">
                 <option value="https://api.askgptai.tech">【CloudFlare】api.askgptai.tech</option>
-                <option value="https://key.usgpt.sias.life/">【赞助线路<<推荐>>】key.usgpt.sias.life</option>
+                <option value="https://key.usgpt.sias.life">【赞助线路<<推荐>>】key.usgpt.sias.life</option>
                 <option value="https://vercel.askopenai.tech">【Vercel】vercel.askopenai.tech</option>
                 <option value="https://api.oneapi.dwyu.cn">【三方key余额】api.oneapi.dwyu.cn</option>
                 <option value="https://api.pipiwei.top">【三方key余额】api.pipiwei.top</option>
                 <option value="https://api.openai.com">【官网线路】api.openai.com</option>
+                <option value="custom">自定义 ...</option>
               </select>
+              <!-- 自定义API链接输入框 -->
+              <input type="text" id="custom-url-input" placeholder="输入自定义API，默认使用 https 协议" />
             
             <form method="POST" onsubmit="event.preventDefault(); checkOpenAICredit();" class="flex items-center mb-10">
                 <label for="api_key" class="w-28 mr-4">API密钥:</label>
@@ -236,8 +239,23 @@ function checkOpenAICredit() {
     });
 }
 
+let apiUrlSelect = document.getElementById("api-url-select");
+let customUrlInput = document.getElementById("custom-url-input");
+
+apiUrlSelect.addEventListener("change", function () {
+  if (apiUrlSelect.value === "custom") {
+    customUrlInput.style.display = "inline-block";
+    customUrlInput.style.marginTop = "5px";
+  } else {
+    customUrlInput.style.display = "none";
+  }
+});
+    
 async function checkBilling(apiKey) {
-  var api_url = document.getElementById("api-url-select").value;
+  var api_url = document.getElementById("api-url-select").value
+  if(api_url=='custom'){
+      api_url= document.getElementById("custom-url-input").value;
+  }
   // 计算起始日期和结束日期
   const now = new Date();
   startDate = new Date(now - 90 * 24 * 60 * 60 * 1000);
